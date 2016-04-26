@@ -5,4 +5,4 @@
 cargo test
 ```
 
-Checkout the debug/examples
+Checkout the target/debug/examples
