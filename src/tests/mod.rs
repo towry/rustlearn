@@ -26,3 +26,12 @@ pub fn test_mut() {
     i.name += 3;
     println!("{}", i.name);
 }
+
+pub fn test_raw_pointer() {
+    let my_num = 10i32;
+    let my_num_ptr: *const i32 = &my_num;
+    println!("{:p}", my_num_ptr);
+    unsafe {
+        println!("{:?}", *my_num_ptr);
+    }
+}
