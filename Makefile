@@ -1,3 +1,8 @@
 
 all:
-	./target/debug/examples/server
+	cargo run --example mut
+
+.PYHON: test 
+
+test:
+	cargo test
