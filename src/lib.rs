@@ -4,3 +4,4 @@ mod macros;
 // mod tests;
 pub mod tests;
 pub mod server;
+pub mod file;
