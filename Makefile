@@ -1,6 +1,6 @@
 
 all:
-	cargo run --example ${ARG}
+	cargo run --example ${A}
 
 .PYHON: test 
 
