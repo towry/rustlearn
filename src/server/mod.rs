@@ -27,10 +27,10 @@ pub fn test_request() {
 
     let mut unwraped = stream.unwrap();
 
-    let mut buffer = [0; 128];
+    let mut buffer = vec![0; 10]; 
     
     let _ = unwraped.write(MESSAGE.as_bytes());
-    let what = unwraped.read(&mut buffer);
+    let what = unwraped.read_to_end(&mut buffer);
     if what.is_ok() {
         println!("{:?}", String::from_utf8_lossy(&buffer));
     }
