@@ -2,6 +2,8 @@
 mod test_foo;
 mod test_move_back;
 mod test_move;
+mod test_box_move;
+mod test_box_clone;
 
 #[cfg(target_os="linux")]
 pub fn test_cfg() {
