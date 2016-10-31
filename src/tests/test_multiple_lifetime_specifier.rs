@@ -23,6 +23,7 @@ pub fn test_multiple_lifetime_specifier() {
     let var_a = {
         let inner_number1 = 2;
         let local_a = A{a: &outer_number, b: &inner_number1};
+        // let local_a = A{a: &outer_number, b: &outer_number};
         // this is a return
         local_a.a
     };
