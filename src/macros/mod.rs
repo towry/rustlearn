@@ -13,3 +13,6 @@ macro_rules! map {
         hm
     })
 }
+
+
+// https://github.com/steveklabnik/trpl/blob/master/macros.md
