@@ -9,6 +9,6 @@ Checkout the target/debug/examples
 or
 
 ```
-make A=file
+make e=file
 // cargo run --example file
 ```

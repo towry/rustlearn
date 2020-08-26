@@ -1,5 +1,9 @@
 
 // server mod
+/**
+ * demo for how browser works.
+ * you need start a server with port 8080.
+ */
 
 use std::io::prelude::*;
 use std::net::TcpStream;
