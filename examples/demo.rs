@@ -28,8 +28,8 @@
 // }
 
 
-fn foo<'a, 'b>(x: &'a u32, _y: &'b u32) -> &'b u32 {
-  _y
+fn foo<'a>(x: &'a u32, _y: &'a u32) -> &'a u32 {
+  x
 }
 
 fn main() {
