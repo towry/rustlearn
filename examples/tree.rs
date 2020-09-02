@@ -1,4 +1,6 @@
 
+// I know I should use Box instead of Arc.
+
 extern crate rustlearn;
 
 use std::io;
@@ -21,7 +23,7 @@ pub struct Tree {
     tree: Option<Arc<Node>>
 }
 
-fn callback<'a>(entry: &DirEntry, parent_node: Arc<Node>) -> io::Result<()> {
+fn callback(entry: &DirEntry, parent_node: &Arc<Node>) -> io::Result<()> {
     let is_file: bool;
 
     // unwrap 
@@ -31,7 +33,7 @@ fn callback<'a>(entry: &DirEntry, parent_node: Arc<Node>) -> io::Result<()> {
         is_file = false;
     }
 
-    Node::new(String::from(entry.path().to_str().unwrap()), Some(parent_node), is_file).unwrap();
+    Node::new(String::from(entry.path().to_str().unwrap()), Some(parent_node.clone()), is_file).unwrap();
 
     Ok(())
 }
@@ -47,12 +49,12 @@ impl Node {
             parent: None
         };
 
-        let node_ref = Arc::new(node);
+        let mut node_ref = Arc::new(node);
 
         match parent {
-            Some(x) => {
-                node.parent = Some(x.clone());
-                x.push(node_ref.clone());
+            Some(mut x) => {
+                (*Arc::get_mut(&mut node_ref).unwrap()).parent = Some(x.clone());
+                (*Arc::get_mut(&mut x).unwrap()).push(node_ref.clone());
             },
             None => ()
         }
@@ -63,8 +65,8 @@ impl Node {
 
         // if is dir 
         // read dir and create the tree 
-        let path = Path::new(&dir);
-        visit_dirs(&path, &callback, parent.unwrap());
+        let path = Path::new(&*node_ref.path);
+        visit_dirs(&path, &callback, &parent.unwrap());
 
         Ok(node_ref)
     }
@@ -86,12 +88,12 @@ impl Tree {
     }
 
     pub fn fresh(&mut self) {
-        self.tree = Node::new(self.base, None, false).ok();
+        self.tree = Node::new(self.base.clone(), None, false).ok();
     }
 }
 
 
-fn visit_dirs<'a> (dir: &Path, cb: &dyn Fn(&DirEntry, Arc<Node>) -> io::Result<()>, node: Arc<Node>) -> io::Result<()> {
+fn visit_dirs<'a> (dir: &Path, cb: &dyn Fn(&DirEntry, &Arc<Node>) -> io::Result<()>, node: &Arc<Node>) -> io::Result<()> {
     if fs::metadata(dir)?.is_dir() {
         for entry in fs::read_dir(dir).unwrap() {
             let entry = entry.unwrap();
@@ -116,4 +118,13 @@ mod tests {
 
         tree.fresh();
     }
+}
+
+fn main() {
+    let mut tree = Tree {
+        base: String::from("/Users/towry/workspace"),
+        tree: None
+    };
+
+    tree.fresh();
 }
